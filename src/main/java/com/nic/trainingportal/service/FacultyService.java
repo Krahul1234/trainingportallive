@@ -1,0 +1,87 @@
+package com.nic.trainingportal.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.nic.trainingportal.dao.FacultyDao;
+
+@Service
+public class FacultyService {
+	@Autowired
+	public FacultyDao facultydao;
+
+	/**
+	 * add faculty details
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public int addFaculty(Map<String, Object> map) {
+		try {
+			return facultydao.addFaculty(map);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	/**
+	 * get all faculty details
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> getAllFaculty() {
+		try {
+			/**
+			 * get faculty
+			 */
+			return facultydao.getAllFaculty();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<Map<String, Object>>(0);
+	}
+
+	/**
+	 * update faculty
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public int updateFacultyDetails(Map<String, Object> map) {
+		try {
+			/**
+			 * update faculty
+			 */
+			return facultydao.updateFacultyDetails(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	/**
+	 * delete faculty
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public int deleteFacultyDetails(Map<String, Object> map) {
+		try {
+			/**
+			 * delete faculty
+			 */
+			return facultydao.deleteFaculty(map);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+}
