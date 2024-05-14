@@ -15,6 +15,7 @@ import com.nic.trainingportal.service.DemographicService;
 import com.nic.trainingportal.utility.Utility;
 import com.nic.trainingportal.webhook.Webhook;
 
+
 @RestController
 public class DemographicController {
 	
@@ -87,6 +88,7 @@ public class DemographicController {
 				dataMap.put(Literal.statusCode, Literal.zero);
 				return dataMap;
 			}
+			
 			dataMap.put(Literal.status, Literal.success);
 			dataMap.put(Literal.statusCode,demographicservice.addDemographicDetails(map));
 			return dataMap;
@@ -100,13 +102,17 @@ public class DemographicController {
 		return new HashMap<String, Object>(0);
 	}
 	
+	/** get DemographicDetails
+	 * @return
+	 */
 	@GetMapping(value =Webhook.getDemographicDetails)
 	public Map<String,Object> getDemographicDetails() 
 	{
 		Map<String,Object>map=new HashMap<String,Object>(4);
 		try
 		{
-			map.put("Data",demographicservice.getDemographicDetails());
+			map.put(Literal.status,Literal.success);
+			map.put(Literal.data,demographicservice.getDemographicDetails());
 			return map;
 		
 		}catch(Exception e)

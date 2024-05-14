@@ -110,12 +110,59 @@ public class FacultyController {
 		return new HashMap<String, Object>(0);
 	}
 
-	@GetMapping(value =Webhook.updateDeleteFaculty)
+	@PostMapping(value =Webhook.updateDeleteFaculty)
 	public Map<String, Object> updateDeleteFaculty(@RequestBody Map<String, Object> map) {
 		Map<String, Object> dataMap = new HashMap<String, Object>(6);
 		try {
 			if (Utility.checkNotNull(map.get("key"))) {
 				if (map.get("key").toString().equalsIgnoreCase("update")) {
+					
+					/**
+					 * check Null
+					 */
+					if (Utility.checkNull(map.get("name"))) {
+						dataMap.put(Literal.status, Literal.error);
+						dataMap.put(Literal.message, "Kindly Provide Faculty Name");
+						dataMap.put(Literal.statusCode, Literal.zero);
+						return dataMap;
+					}
+					/**
+					 * check Null
+					 */
+					if (Utility.checkNull(map.get("postHeld"))) {
+						dataMap.put(Literal.status, Literal.error);
+						dataMap.put(Literal.message, "Kindly Provide Postheld Value");
+						dataMap.put(Literal.statusCode, Literal.zero);
+						return dataMap;
+					}
+
+					/**
+					 * check Null
+					 */
+					if (Utility.checkNull(map.get("scalePay"))) {
+						dataMap.put(Literal.status, Literal.error);
+						dataMap.put(Literal.message, "Kindly Provide Scale Pay Value");
+						dataMap.put(Literal.statusCode, Literal.zero);
+						return dataMap;
+					}
+					/**
+					 * check Null
+					 */
+					if (Utility.checkNull(map.get("permanent"))) {
+						dataMap.put(Literal.status, Literal.error);
+						dataMap.put(Literal.message, "Kindly Provide Value");
+						dataMap.put(Literal.statusCode, Literal.zero);
+						return dataMap;
+					}
+					/**
+					 * check Null
+					 */
+					if (Utility.checkNull(map.get("remarks"))) {
+						dataMap.put(Literal.status, Literal.error);
+						dataMap.put(Literal.message, "Kindly Provide Remarks Value");
+						dataMap.put(Literal.statusCode, Literal.zero);
+						return dataMap;
+					}
 					dataMap.put(Literal.status,Literal.success);
 					dataMap.put(Literal.statusCode, facultyservice.updateFacultyDetails(map));
 					return dataMap;

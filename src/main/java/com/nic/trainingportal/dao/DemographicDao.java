@@ -18,8 +18,8 @@ public class DemographicDao {
 	{
 		try
 		{
-			String sql="insert into demographic (usertype,sird_id,total_population_state,total_rural_population,percent_rural_population)"
-					+ "values('"+map.get("userType")+"','"+map.get("sirdId")+"',"+map.get("totalPopulation")+","+map.get("totalRuralPopulation")+","+map.get("percentOfRural")+")";
+			String sql="insert into demographic (usertype,sird_id,total_population_state,total_rural_population,percent_rural_population,state_code)"
+					+ "values('"+map.get("userType")+"','"+map.get("sirdId")+"',"+map.get("totalPopulation")+","+map.get("totalRuralPopulation")+","+map.get("percentOfRural")+","+map.get("stateCode")+")";
 			
 			return jdbctemplate.update(sql);
 			
@@ -48,7 +48,7 @@ public class DemographicDao {
 	{
 		try
 		{
-		 String sql="update demographic set usertype='"+map.get("userType")+"',sird_id='"+map.get("sirdId")+"',total_population_state="+map.get("totalPopulation")+",total_rural_population="+map.get("totalRuralPopulation")+",percent_rural_population="+map.get("percentOfRural")+" where id='"+map.get("id")+"'";
+		 String sql="update demographic set usertype='"+map.get("userType")+"',sird_id='"+map.get("sirdId")+"',total_population_state="+map.get("totalPopulation")+",total_rural_population="+map.get("totalRuralPopulation")+",percent_rural_population="+map.get("percentOfRural")+",state_code="+map.get("stateCode")+" where id='"+map.get("id")+"'";
 			return jdbctemplate.update(sql);
 		}catch(Exception e)
 		{

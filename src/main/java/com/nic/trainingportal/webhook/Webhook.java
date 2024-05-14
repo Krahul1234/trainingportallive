@@ -27,5 +27,9 @@ public class Webhook {
 	 * UpdateDemoGraphicDetails
 	 */
 	public static final String updateDemographicDetails="UpdateDemoGraphicDetails";
+	
+	public static final String addTraningDetails="AddTraningDetails";
+	
+	public static final String updateTrainingDetails="UpdateTrainingDetails";
 
 }

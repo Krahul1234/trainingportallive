@@ -60,7 +60,7 @@ public class TrainingDao {
 
 	public int updateTrainingDetails(Map<String, Object> map) {
 		try {
-			String sql = "update training_final set entry_date='"+map.get("proposedDate")+"',name='"+map.get("facultyName")+"',training_venue='"+map.get("venue")+"',training_subject='"+map.get("trainingSubject")+"',number_of_trainees="+map.get("trainessNumber")+",target_group="+map.get("targetGroup")+" where id='"+map.get("id")+"'";
+			String sql = "update training_final set entry_date='"+map.get("proposedDate")+"',name='"+map.get("facultyName")+"',training_venue='"+map.get("venue")+"',training_subject='"+map.get("trainingSubject")+"',number_of_trainees="+map.get("trainessNumber")+",target_group='"+map.get("targetGroup")+"' where training_id='"+map.get("training_id")+"'";
 			return jdbcTemplate.update(sql);
 		} catch (Exception e) {
 			e.printStackTrace();
