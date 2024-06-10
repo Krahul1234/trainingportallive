@@ -23,18 +23,20 @@ public class LoginService {
 	{
 		try
 		{
+			/**
+			 * get Login Details
+			 */
 			List<Map<String,Object>>data=logindao.getLoginDetails(map);
-			
-			if(data!=null &&data.size()!=0)
+			if(data!=null && data.size()!=0)
 			{
 				for(Map<String,Object>data_map:data)
 				{
 					if(map.get("username").toString().equalsIgnoreCase(data_map.get("username").toString())&& map.get("password").toString().equalsIgnoreCase(data_map.get("user_password").toString()))
 					{
-						return jwt.generateToken(map.get("username").toString());
+						return jwt.generateToken(map.get("username").toString(),map.get("key").toString());
 					}else
 					{
-						 return "Not Valid User";
+						 return "Unauthorized User";
 					}
 				}
 			}
@@ -42,7 +44,7 @@ public class LoginService {
 		{
 			e.printStackTrace();
 		}
-		return "";
+		return "Unauthorized User";
 	}
 
 }

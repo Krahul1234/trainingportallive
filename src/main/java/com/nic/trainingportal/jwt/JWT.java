@@ -17,9 +17,10 @@ public class JWT {
     private static final long EXPIRATION_TIME =3600000; // 1 hour in milliseconds
 
     @SuppressWarnings("deprecation")
-	public String generateToken(String username) {
+	public String generateToken(String username,String role) {
     	
         return Jwts.builder()
+        		.claim("role", role)
                 .setSubject(username)
                 .setExpiration(new Timestamp(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)

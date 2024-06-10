@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nic.trainingportal.dao.TrainingDao;
 
@@ -36,12 +37,12 @@ public class TrainingService {
 	 * 
 	 * @return
 	 */
-	public List<Map<String, Object>> getAllTrainingDetails() {
+	public List<Map<String, Object>> getAllTrainingDetails(int pageSize,@RequestParam int pageNumber,String userName,String userType,int userId) {
 		try {
 			/**
 			 * get faculty
 			 */
-			return trainingdao.getTrainingDetails();
+			return trainingdao.getTrainingDetails(pageSize,pageNumber,userName,userType,userId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,22 +68,37 @@ public class TrainingService {
 	}
 
 	/**
-	 * delete training details
+	 * get all faculty details
 	 * 
-	 * @param map
 	 * @return
 	 */
-	public int deleteTrainingDetails(Map<String, Object> map) {
+	public int deleteCalendarInfoById(String id) {
 		try {
 			/**
-			 * delete faculty
+			 * get faculty
 			 */
-			return trainingdao.deleteTrainingDetails(map);
-
+			return trainingdao.deleteCalendarInfoById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	/**
+	 * get all faculty details
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> getCalendarInfoById(String id) {
+		try {
+			/**
+			 * get faculty
+			 */
+			return trainingdao.getCalendarInfoById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<Map<String, Object>>(0);
 	}
 
 }
