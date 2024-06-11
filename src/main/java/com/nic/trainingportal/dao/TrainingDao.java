@@ -123,7 +123,7 @@ public class TrainingDao {
 	 */
 	public List<Map<String, Object>> getCalendarInfoById(String id) {
 		try {
-			String sql ="SELECT enddate, entry_date AS \"proposedDate\", " +
+			String sql ="SELECT enddate AS \"endDate\", entry_date AS \"proposedDate\", " +
 		             "name AS \"facultyName\", " +
 		             "training_venue AS \"venue\", " +
 		             "training_subject AS \"trainingSubject\", " +

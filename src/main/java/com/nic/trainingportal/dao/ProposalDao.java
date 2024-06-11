@@ -189,6 +189,8 @@ public class ProposalDao {
 	{
 		try
 		{
+			List<Map<String,Object>>datalist=new ArrayList<Map<String,Object>>();
+			Map<String,Object>idmap=new HashMap<String,Object>();
 			String lowerDesignation="";
 			if(userType.equals("sird"))
 			{
@@ -206,8 +208,28 @@ public class ProposalDao {
 			{
 				lowerDesignation="etc";
 			}
-			String sql="select remarks from forward_proposal where lower_designation='"+lowerDesignation+"'";
-			return jdbcTemplate.queryForList(sql);
+			String sql="select remarks,combined_proposal_no from forward_proposal where lower_designation='"+lowerDesignation+"'";
+			String combinedNo=jdbcTemplate.queryForList(sql).get(0).get("combined_proposal_no").toString();
+			String sqlNew="select userid,etcids from combined_proposal where combined_proposal_id='"+combinedNo+"'";
+			List<Map<String,Object>>list=jdbcTemplate.queryForList(sqlNew);
+			int i=1;
+			for(Map<String,Object>datamap:list)
+			{
+				
+				idmap.put("sirdId",datamap.get("userid"));
+				String arr[]=datamap.get("etcids").toString().split(",");
+				
+				for(String str:arr)
+				{
+					idmap.put("etcId"+i++, str);
+				}
+				
+				
+			}
+			
+			datalist= jdbcTemplate.queryForList(sql);
+			datalist.add(idmap);
+			return datalist;
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -491,6 +513,7 @@ public class ProposalDao {
 		try
 		{
 			StringBuilder id=new StringBuilder();
+			StringBuilder ids=new StringBuilder();
 			boolean flag=true;
 			int userId=this.getUserId(map);
 			String sql1="select state_code from sird where sird_id='"+userId+"'";
@@ -502,12 +525,15 @@ public class ProposalDao {
 				if(flag)
 				{
 					id.append("'"+etcPropasal.get("etc_id").toString()+"'");
+					ids.append(""+etcPropasal.get("etc_id").toString()+"");
 					flag=false;
 				}else
 				{
 					id.append(",'"+etcPropasal.get("etc_id").toString()+"'");
+					ids.append(","+etcPropasal.get("etc_id").toString()+"");
 				}
 			}
+			
 			
 			String proposal="select totaldemand, proposaldate,proposalid,user_id,usertype from final_proposal where usertype='etc' and user_id in("+id.toString()+")";
 			
@@ -525,7 +551,7 @@ public class ProposalDao {
 			
 			for(Map<String,Object>proposalNewMap:proposalListNew)
 			{
-				String insert="insert into combined_proposal (proposalno,userid,usertype,proposalid) values("+proposalNewMap.get("proposal_no")+",'"+proposalNewMap.get("user_id")+"','"+proposalNewMap.get("usertype")+"','"+proposalNewMap.get("proposalid")+"')";
+				String insert="insert into combined_proposal (proposalno,userid,usertype,proposalid,etcids,status) values("+proposalNewMap.get("proposal_no")+",'"+proposalNewMap.get("user_id")+"','"+proposalNewMap.get("usertype")+"','"+proposalNewMap.get("proposalid")+"','"+ids+"','"+"Generated"+"')";
 				jdbcTemplate.update(insert);
 			}
 			
@@ -542,6 +568,8 @@ public class ProposalDao {
 	{
 		try
 		{
+			String combined_proposal_no="";
+			
 			String upperDesignation="";
 			String lowerDesignation="";
 			if(map.get("key").toString().equals("sird"))
@@ -550,36 +578,45 @@ public class ProposalDao {
 				upperDesignation="so";
 				String sql1="select sird_id from loginmaster_sird where username='"+map.get("username")+"'";
 				int userId=Integer.parseInt(jdbcTemplate.queryForList(sql1).get(0).get("sird_id").toString());
-				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"')");
+				String sql="select combined_proposal_id from combined_proposal where userid='"+userId+"'";
+				String proposalNo=jdbcTemplate.queryForList(sql).get(0).get("combined_proposal_id").toString();
+				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks,combined_proposal_no) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"','"+proposalNo+"')");
 			}else if(map.get("key").toString().equals("so"))
 			{
 				String sql1="select min_id from loginmaster_ministry where username='"+map.get("username")+"'";
 				int userId=Integer.parseInt(jdbcTemplate.queryForList(sql1).get(0).get("min_id").toString());
 				lowerDesignation="so";
 				upperDesignation="us";
-				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"')");
+				String sql="select combined_proposal_no from forward_proposal where lower_designation='"+"sird"+"' ";
+				String proposalNo=jdbcTemplate.queryForList(sql).get(0).get("combined_proposal_no").toString();
+				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks,combined_proposal_no) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"','"+proposalNo+"')");
 			}else if(map.get("key").toString().equals("us"))
 			{
 				String sql1="select min_id from loginmaster_ministry where username='"+map.get("username")+"'";
 				int userId=Integer.parseInt(jdbcTemplate.queryForList(sql1).get(0).get("min_id").toString());
 				lowerDesignation="us";
 				upperDesignation="ds";
-				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"')");
+				String sql="select combined_proposal_no from forward_proposal where lower_designation='"+"sird"+"' ";
+				String proposalNo=jdbcTemplate.queryForList(sql).get(0).get("combined_proposal_no").toString();
+				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks,combined_proposal_no) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"','"+proposalNo+"')");
 			}else if(map.get("key").toString().equals("ds"))
 			{
 				String sql1="select min_id from loginmaster_ministry where username='"+map.get("username")+"'";
 				int userId=Integer.parseInt(jdbcTemplate.queryForList(sql1).get(0).get("min_id").toString());
 				lowerDesignation="ds";
 				upperDesignation="as";
-				
-				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"')");
+				String sql="select combined_proposal_no from forward_proposal where lower_designation='"+"sird"+"' ";
+				String proposalNo=jdbcTemplate.queryForList(sql).get(0).get("combined_proposal_no").toString();
+				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks,combined_proposal_no) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"','"+proposalNo+"')");
 			}else
 			{
 				lowerDesignation="etc";
 				upperDesignation="sird";
 				String sql1="select etc_id from loginmaster_etc where username='"+map.get("username")+"'";
 				int userId=Integer.parseInt(jdbcTemplate.queryForList(sql1).get(0).get("etc_id").toString());
-				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"')");
+				String sql="select combined_proposal_no from forward_proposal where lower_designation='"+"sird"+"' ";
+				String proposalNo=jdbcTemplate.queryForList(sql).get(0).get("combined_proposal_no").toString();
+				jdbcTemplate.update("insert into forward_proposal (lower_designation,upper_designation,user_type,user_id,remarks,combined_proposal_no) values('"+lowerDesignation+"','"+upperDesignation+"','"+map.get("key")+"','"+userId+"','"+map.get("remarks")+"','"+proposalNo+"')");
 			}
 			return 1;
 			
@@ -601,14 +638,61 @@ public class ProposalDao {
 			if(map.get("key").toString().equalsIgnoreCase("etc"))
 			{
 				tableName="loginmaster_etc";
+			}else if (map.get("key").toString().equalsIgnoreCase("sird")) {
+				tableName="loginmaster_sird";
 			}else
 			{
-				tableName="loginmaster_sird";
+				tableName="loginmaster_ministry";
 			}
 			
 			String sql="select"+" "+map.get("key")+"_"+ "id from"+" "+tableName+" "+"where username='"+map.get("username")+"'";
 			
 			return Integer.parseInt(jdbcTemplate.queryForList(sql).get(0).get(map.get("key")+"_"+"id").toString());			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public List<Map<String,Object>>getCombinedProposal(String userType,String userName)
+	{
+		try
+		{
+			int userId=this.getUserId(userType,userName);
+			String sql="select combined_proposal_id,proposaldate,status from combined_proposal where userid='"+userId+"'";
+			return jdbcTemplate.queryForList(sql);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return new ArrayList<Map<String,Object>>(0);
+	}
+	
+	
+	
+	public int getUserId(String userType,String userName)
+	{
+		try
+		{
+			String tableName="";
+			/**
+			 *  check login type
+			 */
+			if(userType.equalsIgnoreCase("etc"))
+			{
+				tableName="loginmaster_etc";
+			}else if(userType.equalsIgnoreCase("sird"))
+			{
+				tableName="loginmaster_sird";
+			}else
+			{
+				tableName="loginmaster_ministry";
+			}
+			
+			String sql="select"+" "+userType+"_"+ "id  from"+" "+tableName+" "+"where username='"+userName+"'";
+			
+			return Integer.parseInt(jdbcTemplate.queryForList(sql).get(0).get(userType+"_"+"id").toString());			
 		}catch(Exception e)
 		{
 			e.printStackTrace();

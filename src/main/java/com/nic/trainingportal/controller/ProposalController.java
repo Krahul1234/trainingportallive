@@ -112,12 +112,12 @@ public class ProposalController {
 			/**
 			 *  check token is valid or not
 			 */
-			if(utility.getHeaderValue(httpservletrequest))
-			 {
-				dataMap.put(Literal.status,Literal.unauthorized);
-				dataMap.put(Literal.message, "Your Token Is Expired");
-				return dataMap;
-			 }
+//			if(utility.getHeaderValue(httpservletrequest))
+//			 {
+//				dataMap.put(Literal.status,Literal.unauthorized);
+//				dataMap.put(Literal.message, "Your Token Is Expired");
+//				return dataMap;
+//			 }
 			dataMap.put(Literal.status,Literal.successCode);
 			dataMap.put("Data",proposalservice.getForwardProposal(userType,userName));
 			return dataMap;
@@ -230,6 +230,34 @@ public class ProposalController {
 		return new HashMap<String,Object>(0);	
 	}
 	
-
+	
+	@GetMapping("getCombinedProposal")
+	public Map<String,Object> getCombinedProposal(@RequestParam String userType,@RequestParam String userName) 
+	
+	{
+		Map<String,Object> dataMap = new HashMap<>();
+		try {
+			
+//			if(utility.getHeaderValue(httpservletrequest))
+//			 {
+//				    dataMap.put(Literal.status, Literal.unauthorized);
+//					dataMap.put(Literal.message, "Your Token Is Expired");
+//					dataMap.put(Literal.statusCode, Literal.zero);
+//					
+//					return dataMap;
+//			 }
+			
+			dataMap.put(Literal.status, Literal.successCode);
+			dataMap.put(Literal.data,proposalservice.getCombinedProposal(userType,userName));
+			return dataMap;
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new HashMap<String,Object>(0);
+		
+	}
+		
+	
 }
 

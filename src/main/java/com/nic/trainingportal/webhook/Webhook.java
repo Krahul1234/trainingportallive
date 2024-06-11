@@ -77,6 +77,8 @@ public class Webhook {
 	
 	public static final String addCombinedProposal="addCombinedProposal";
 
+	public static final String getforwardproposals="getforwardproposals";
+
 	
 	
 	

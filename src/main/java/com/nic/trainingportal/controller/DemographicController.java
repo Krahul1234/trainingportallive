@@ -55,15 +55,15 @@ public class DemographicController {
 	public Map<String, Object> addFaculty(@RequestBody Map<String, Object> map) {
 		Map<String, Object> dataMap = new HashMap<String, Object>(6);
 		try {
-			/**
-			 *  check token is valid or not
-			 */
-			 if(utility.getHeaderValue(httpservletrequest))
-			 {
-				    dataMap.put(Literal.status,Literal.unauthorized);
-					dataMap.put(Literal.message, "Your Token Is Expired");
-					return dataMap;
-			 }
+//			/**
+//			 *  check token is valid or not
+//			 */
+//			 if(utility.getHeaderValue(httpservletrequest))
+//			 {
+//				    dataMap.put(Literal.status,Literal.unauthorized);
+//					dataMap.put(Literal.message, "Your Token Is Expired");
+//					return dataMap;
+//			 }
 			/**
 			 * check Null
 			 */

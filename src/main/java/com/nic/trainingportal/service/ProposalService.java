@@ -242,4 +242,19 @@ public class ProposalService {
 		return 0;
 
 }
+	
+	public List<Map<String, Object>>getCombinedProposal(String userType,String userName) {
+		try
+		{
+			/**
+			 *  insert data into database
+			 */
+			return proposaldao.getCombinedProposal(userType,userName);
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return new ArrayList<Map<String, Object>>(0);
+	}
 }

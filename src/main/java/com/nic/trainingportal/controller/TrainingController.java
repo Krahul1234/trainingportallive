@@ -45,12 +45,12 @@ public class TrainingController {
 			/**
 			 *  check token is valid or not
 			 */
-//			 if(utility.getHeaderValue(httpservletrequest))
-//			 {
-//				    dataMap.put(Literal.status, Literal.unauthorized);
-//					dataMap.put(Literal.message, "Your Token Is Expired");
-//					return dataMap;
-//			 }
+			 if(utility.getHeaderValue(httpservletrequest))
+			 {
+				    dataMap.put(Literal.status, Literal.unauthorized);
+					dataMap.put(Literal.message, "Your Token Is Expired");
+					return dataMap;
+			 }
 			/**
 			 * check Null
 			 */

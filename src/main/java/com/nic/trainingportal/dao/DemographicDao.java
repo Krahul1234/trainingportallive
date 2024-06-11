@@ -1,6 +1,7 @@
 package com.nic.trainingportal.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import com.nic.trainingportal.literal.Literal;
 
 @Component
 public class DemographicDao {
@@ -23,15 +26,14 @@ public class DemographicDao {
 			int sird_id=this.getUserId(map);
 			String sql="insert into demographic(total_population_state,total_rural_population,percent_rural_population,state_code,usertype,user_id) values(?,?,?,?,?,?)";
 			return jdbctemplate.update(sql,map.get("totalPopulation"),map.get("totalRuralPopulation"),map.get("percentOfRural"),map.get("stateCode"),map.get("key").toString().toLowerCase(),sird_id);
-			
 		}catch(Exception e)
 		{  /**
 			 * print error log
 			 */
 			logger.error("An error occurred while doing something", e);
 			e.printStackTrace();
+			return 0;
 		}
-		return 0;
 	}
 	
 	public List<Map<String,Object>>getDemographicDetails(int pageSize,int pageNumber,int userId,String userType)
