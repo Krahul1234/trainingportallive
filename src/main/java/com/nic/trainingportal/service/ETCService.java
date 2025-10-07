@@ -1,14 +1,12 @@
 package com.nic.trainingportal.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.nic.trainingportal.dao.ETCDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nic.trainingportal.dao.ETCDao;
-import com.nic.trainingportal.dao.SIRDDao;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ETCService {
@@ -81,6 +79,41 @@ public class ETCService {
 				 * get faculty
 				 */
 				return etcDao.getAllEtcs(userName,userTYpe);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return new ArrayList<Map<String, Object>>(0);
+		}
+		
+		/**
+		 * get all faculty details
+		 * 
+		 * @return
+		 */
+		public List<Map<String, Object>> GetAllEtcAddToCombined(String userName,String userType,String installmentType,String financialYear) {
+			try {
+				/**
+				 * get faculty
+				 */
+				return etcDao.GetAllEtcAddToCombined(userName,userType,installmentType,financialYear);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return new ArrayList<Map<String, Object>>(0);
+		}
+		
+		
+		/**
+		 * get all faculty details
+		 * 
+		 * @return
+		 */
+		public List<Map<String, Object>> GetAllEtcAddToCombinedNonRecuring(String userName,String userType,String financialYear) {
+			try {
+				/**
+				 * get faculty
+				 */
+				return etcDao.GetAllEtcAddToCombinedNonRecuring(userName,userType,financialYear);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

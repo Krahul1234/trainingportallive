@@ -1,13 +1,12 @@
 package com.nic.trainingportal.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.nic.trainingportal.dao.SIRDDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nic.trainingportal.dao.SIRDDao;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class SIRDService {
@@ -28,12 +27,12 @@ public class SIRDService {
 	    }
 	
 	
-	 public List<Map<String, Object>> sirdDetails(int pageSize,int pageNumber) {
+	 public List<Map<String, Object>> sirdDetails(Map<String,Object>map) {
 	        try {
 	            /**
 	             * get faculty
 	             */
-	            return sirdDao.sirdDetails(pageSize,pageNumber);
+	            return sirdDao.sirdDetails(map);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
@@ -92,16 +91,47 @@ public class SIRDService {
 		 * 
 		 * @return
 		 */
-		public List<Map<String, Object>> getSirdDetails(String userName) {
+		public List<Map<String, Object>> getSirdDetails(String userName,String view,String financialYear,String installmentType) {
 			try {
 				/**
 				 * get faculty
 				 */
-				return sirdDao.getSirdDetails(userName);
+				return sirdDao.getSirdDetails(userName,view,financialYear,installmentType);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return new ArrayList<Map<String, Object>>(0);
 		}
+		
+		
+		/**
+		 * get all faculty details
+		 * 
+		 * @return
+		 */
+		public List<Map<String, Object>> getSirdDetailsNonRecuring(String userName, String view, String financialYear) {
+			try {
+				/**
+				 * get faculty
+				 */
+				return sirdDao.getSirdDetailsNonRecuring(userName,view,financialYear);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return new ArrayList<Map<String, Object>>(0);
+		}
+		
+		
+		public String updateInformationSirdEtc(Map<String,Object>map) {
+	        try {
+	            /**
+	             * get faculty
+	             */
+	            return sirdDao.updateInformationSirdEtc(map);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "Not Updated";
+	        }
+	    }
 
 }

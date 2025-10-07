@@ -1,11 +1,12 @@
 package com.nic.trainingportal.service;
 
+import com.nic.trainingportal.dao.FacultyDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.nic.trainingportal.dao.FacultyDao;
 
 @Service
 public class FacultyService {
@@ -36,13 +37,13 @@ public class FacultyService {
 	 * 
 	 * @return
 	 */
-	public List<Map<String, Object>> getAllFaculty(int pageSize,int pageNumber,String userName,String userType) {
+	public List<Map<String, Object>> getAllFaculty(int pageSize,int pageNumber,String userName,String userType,String financialYear,String installmentType) {
 		try {
 			
 			/**
 			 * get faculty
 			 */
-			return facultydao.getAllFaculty(pageSize,pageNumber,userName,userType);
+			return facultydao.getAllFaculty(pageSize,pageNumber,userName,userType,financialYear,installmentType);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -136,5 +137,22 @@ public class FacultyService {
 		}
 		return new ArrayList<Map<String, Object>>(0);
 	}
+	
+	
+	public String updateDeleteFaculty(Map<String,Object> map) {
+        try
+        {
+            /**
+             *  insert data into database
+             */
+            return facultydao.updateDeleteFaculty(map);
+            
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            return "Not Updated";
+        }
+
+}
 
 }

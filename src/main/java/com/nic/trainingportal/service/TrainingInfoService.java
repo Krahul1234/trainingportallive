@@ -1,20 +1,22 @@
 package com.nic.trainingportal.service;
 
+import com.nic.trainingportal.dao.TrainingInfoDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.nic.trainingportal.dao.TrainingInfoDao;
 
 @Service
 public class TrainingInfoService {
 
 	@Autowired
 	private TrainingInfoDao TrainingInfoDao;
+	
+	@Autowired
+	private JdbcTemplate jdbctemplate;
 
 	public int addTrainingInfo(Map<String, Object> map) {
 		try {
@@ -25,7 +27,7 @@ public class TrainingInfoService {
 		}
 		return 0;
 	}
-	public List<Map<String, Object>> getAllFaculty(@RequestParam int pageSize,@RequestParam int pageNumber,int userId,String userType) {
+	public List<Map<String, Object>> getAllFaculty( int pageSize, int pageNumber,int userId,String userType) {
         try {
             /**
              * get faculty
@@ -53,7 +55,7 @@ public class TrainingInfoService {
 		 * 
 		 * @return
 		 */
-		public List<Map<String, Object>> getTrainingInfoById(String id) {
+		public List<Map<String, Object>> getTrainingInfoById(Integer id) {
 			try {
 				/**
 				 * get faculty
@@ -81,5 +83,103 @@ public class TrainingInfoService {
 			}
 			return 0;
 		}
+		
+		public List<Map<String, Object>> getAllEtc() {
+		    return TrainingInfoDao.getAllEtc();
+		   }
 
+		public Map<String, Object> getAllCount() {
+		    return TrainingInfoDao.getAllCount();
+		}
+
+		public List<Map<String, Object>> getAllSird() {
+		    return TrainingInfoDao.getAllSird();
+		}
+		
+		
+		public Object getTrainingInfo(String userName, String userType) {
+			 try {
+		            /**
+		             * get faculty
+		             */
+		            return TrainingInfoDao.getInformation(userName,userType);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		        return new ArrayList<Map<String, Object>>(0);
+		    }
+		
+		public List<Map<String, Object>> getCalendar(String userName,String userType) {
+	        try {
+	            /**
+	             * get faculty
+	             */
+	            return TrainingInfoDao.getCalendar(userName,userType);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+		
+		
+		public Object getAllCal() {
+		     try {
+		            /**
+		             * get faculty
+		             */
+		            return TrainingInfoDao.getAllCal();
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		        return new ArrayList<Map<String, Object>>(0);
+		    }
+		    public Object getAllInfo(Map<String, Object> map) {
+		         try {
+		                /**
+		                 * get faculty
+		                 */
+		                return TrainingInfoDao.getAllInfo(map);
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+		            return new ArrayList<Map<String, Object>>(0);
+		        }
+		    
+		    
+		    public  List<Map<String, Object>> calendarCount() {
+		         try {
+		                /**
+		                 * get faculty
+		                 */
+		                return TrainingInfoDao.calendarCount();
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+		            return new ArrayList<Map<String, Object>>(0);
+		        }
+		    
+		    public String updateTranningProposal(Map<String,Object>map) {
+		        try {
+		            /**
+		             * get faculty
+		             */
+		            return TrainingInfoDao.updateTranningProposal(map);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            return "Not Updated";
+		        }
+		    }
+		    
+		    public String updateFundsProposal(Map<String, Object> map) {
+				try {
+		            /**
+		             * get faculty
+		             */
+		            return TrainingInfoDao.updateFundsProposal(map);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		            return "Not Updated";
+		        }
+			}
+		   
 }

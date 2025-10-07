@@ -39,6 +39,7 @@ public class Literal {
 	public static final String successCode="200";
 	
 	public static final String errorCode="500";
-	
 
+
+	public static String stateName;
 }
